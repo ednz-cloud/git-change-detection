@@ -1,0 +1,30 @@
+[project]
+name = "gitcd"
+version = "0.0.0"
+description = "Dependency-aware change detection for Git repositories."
+authors = [
+  { name = "Bertrand Lanson", email = "bertrand.lanson@protonmail.com" },
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = [
+  "gitpython (>=3.1.45,<4.0.0)",
+  "typer (>=0.17.4,<0.18.0)",
+  "rich (>=14.1.0,<15.0.0)",
+  "pydantic (>=2.11.7,<3.0.0)",
+  "pyyaml (>=6.0.2,<7.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+gitcd = "gitcd.cli:app"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.4.2"
+coverage = "^7.10.6"
+
