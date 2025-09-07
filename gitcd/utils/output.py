@@ -40,15 +40,20 @@ def render_output(
     console.print("\n[bold]Triggered Nodes[/bold]")
     triggered = [n for n, node in graph.nodes.items() if node.triggered]
     if triggered:
-        t = Table(show_header=True, header_style="bold cyan")
+        t = Table(
+            show_header=True,
+            header_style="bold cyan",
+            show_lines=True,
+        )
         t.add_column("Node", style="magenta")
         t.add_column("File", style="green")
         t.add_column("Pattern", style="yellow")
 
         for n in triggered:
             node = graph.nodes[n]
-            for trig in node.triggered_by:
-                t.add_row(n, trig["file"], trig["pattern"])
+            files = sorted({t["file"] for t in node.triggered_by})
+            patterns = sorted({t["pattern"] for t in node.triggered_by})
+            t.add_row(node.name, "\n".join(files), "\n".join(patterns))
         console.print(t)
     else:
         console.print("[dim](none)[/dim]")
