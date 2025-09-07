@@ -23,7 +23,11 @@ def render_output(
     if fmt == "json":
         import json
 
-        print(json.dumps({n: node.dict() for n, node in graph.nodes.items()}, indent=2))
+        print(
+            json.dumps(
+                {n: node.model_dump() for n, node in graph.nodes.items()}, indent=2
+            )
+        )
         return
 
     from rich.console import Console
