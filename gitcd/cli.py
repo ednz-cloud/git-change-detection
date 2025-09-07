@@ -29,8 +29,12 @@ def detect(
         typer.echo(f"Error: {e}")
         raise typer.Exit(code=1)
 
-    # Match triggers
-    import fnmatch, os
+    try:
+        import fnmatch
+        import os
+    except ImportError as e:
+        typer.echo("Error importing required modules: %s", e)
+        raise typer.Exit(code=1)
 
     for file in changed_files:
         for node in graph.nodes.values():
