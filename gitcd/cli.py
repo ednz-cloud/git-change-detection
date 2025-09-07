@@ -24,6 +24,7 @@ def detect(
     """
     graph = DependencyGraph()
     graph.load_files(metadata_files)
+    graph.sanitize_dependencies()
 
     try:
         changed_files = get_changed_files(first_commit, last_commit, repo)

@@ -48,6 +48,11 @@ class DependencyGraph:
         if node_name in self.nodes:
             self.nodes[node_name].mark_triggered(file, pattern)
 
+    def sanitize_dependencies(self):
+        """Remove dependencies that are not present in the graph."""
+        for node in self.nodes.values():
+            node.depends_on = [dep for dep in node.depends_on if dep in self.nodes]
+
     def detect_cycles(self) -> list[list[str]]:
         """Detect dependency cycles in the graph."""
         cycles = []
