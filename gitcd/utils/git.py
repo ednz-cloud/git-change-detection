@@ -20,18 +20,18 @@ def get_changed_files(
 
     try:
         repo = Repo(repo_path, search_parent_directories=True)
-    except (InvalidGitRepositoryError, NoSuchPathError):
-        raise RuntimeError(f"{repo_path} is not a valid Git repository.")
+    except (InvalidGitRepositoryError, NoSuchPathError) as e:
+        raise RuntimeError(f"{repo_path} is not a valid Git repository.") from e
 
     try:
         commit_a = repo.commit(first_commit)
-    except BadName:
-        raise RuntimeError(f"Commit '{first_commit}' not found in repository.")
+    except BadName as e:
+        raise RuntimeError(f"Commit '{first_commit}' not found in repository.") from e
 
     try:
         commit_b = repo.commit(last_commit)
-    except BadName:
-        raise RuntimeError(f"Commit '{last_commit}' not found in repository.")
+    except BadName as e:
+        raise RuntimeError(f"Commit '{last_commit}' not found in repository.") from e
 
     diff = commit_a.diff(commit_b, paths=None, create_patch=False)
 

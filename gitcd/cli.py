@@ -3,6 +3,8 @@ from pathlib import Path
 from gitcd.models.dependency_graph import DependencyGraph
 from gitcd.utils.git import get_changed_files
 from gitcd.utils.output import render_output
+import fnmatch
+import os
 
 app = typer.Typer(help="GitCD: dependency-aware change detection for Git.")
 
@@ -27,13 +29,6 @@ def detect(
         changed_files = get_changed_files(first_commit, last_commit, repo)
     except RuntimeError as e:
         typer.echo(f"Error: {e}")
-        raise typer.Exit(code=1)
-
-    try:
-        import fnmatch
-        import os
-    except ImportError as e:
-        typer.echo("Error importing required modules: %s", e)
         raise typer.Exit(code=1)
 
     for file in changed_files:

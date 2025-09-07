@@ -1,5 +1,4 @@
 import json
-import pytest
 from gitcd.models.dependency_graph import DependencyGraph
 from gitcd.models.node_metadata import NodeMetadata
 from gitcd.utils.output import render_output  # adjust import to your actual path

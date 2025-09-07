@@ -1,4 +1,3 @@
-import pytest
 from gitcd.models.node_metadata import NodeMetadata
 
 

@@ -49,6 +49,7 @@ class DependencyGraph:
             self.nodes[node_name].mark_triggered(file, pattern)
 
     def detect_cycles(self) -> list[list[str]]:
+        """Detect dependency cycles in the graph."""
         cycles = []
         visited = set()
         stack = set()

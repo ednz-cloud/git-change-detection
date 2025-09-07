@@ -1,9 +1,8 @@
-import pytest
 from pathlib import Path
 import tempfile
 import json
-import tomllib
 import yaml
+import pytest
 from gitcd.utils.io import load_metadata_file
 
 
@@ -39,7 +38,6 @@ def test_unsupported_extension():
     with tempfile.NamedTemporaryFile("w", suffix=".txt") as f:
         f.write("whatever")
         f.flush()
-        import pytest
 
         with pytest.raises(ValueError):
             load_metadata_file(Path(f.name))

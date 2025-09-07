@@ -1,6 +1,9 @@
 from __future__ import annotations
+import json
 from typing import Literal
 from gitcd.models.dependency_graph import DependencyGraph
+from rich.console import Console
+from rich.table import Table
 
 
 def render_output(
@@ -21,17 +24,12 @@ def render_output(
         fmt: Output format ("table" or "json").
     """
     if fmt == "json":
-        import json
-
         print(
             json.dumps(
                 {n: node.model_dump() for n, node in graph.nodes.items()}, indent=2
             )
         )
         return
-
-    from rich.console import Console
-    from rich.table import Table
 
     console = Console()
 
