@@ -12,6 +12,9 @@ on:
       - gitcd/**
       - tests/**
 
+env:
+  POETRY_VERSION: 2.1.4
+
 jobs:
   unit_tests:
     name: Unit Tests
@@ -19,9 +22,9 @@ jobs:
     strategy:
       matrix:
         python-version:
+          - "3.11"
           - "3.12"
-          # - "3.12"
-          # - "3.13"
+          - "3.13"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,7 +35,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install poetry
-        uses: abatilo/actions-poetry@v4
+        run: |
+          curl -sSL https://install.python-poetry.org | python - --version ${{env.POETRY_VERSION}}
 
       - name: Install dependencies
         run: |
