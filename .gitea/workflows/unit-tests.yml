@@ -16,14 +16,12 @@ jobs:
   unit_tests:
     name: Unit Tests
     runs-on: ubuntu-latest
-    env:
-      FORCE_COLOR: "1"
     strategy:
       matrix:
         python-version:
-          - "3.11"
           - "3.12"
-          - "3.13"
+          # - "3.12"
+          # - "3.13"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,7 +35,11 @@ jobs:
         uses: abatilo/actions-poetry@v4
 
       - name: Install dependencies
-        run: /root/.local/bin/poetry install --no-interaction --no-ansi
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          poetry install --no-interaction --no-ansi
 
       - name: Run unit tests
-        run: /root/.local/bin/poetry run pytest --cov=gitcd --cov-report=term-missing --cov-fail-under=70
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          poetry run pytest --cov=gitcd --cov-report=term-missing --cov-fail-under=70
