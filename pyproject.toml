@@ -29,3 +29,12 @@ gitcd = "gitcd.cli:app"
 pytest = "^8.4.2"
 coverage = "^7.10.6"
 pytest-cov = "^7.0.0"
+pre-commit = "^4.3.0"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.0.0"
+version_provider = "poetry"
+tag_format = "v$version"
+update_changelog_on_bump = true
+version_files = ["pyproject.toml:^version"]
