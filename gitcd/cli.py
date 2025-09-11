@@ -14,7 +14,11 @@ def detect(
     first_commit: str = typer.Argument(..., help="First commit in diff"),
     last_commit: str = typer.Argument(..., help="Last commit in diff"),
     metadata_files: list[Path] = typer.Option(
-        ..., "--metadata", "-m", help="Metadata files to load", exists=True
+        ...,
+        "--metadata",
+        "-m",
+        help="Metadata files to load",
+        exists=True,
     ),
     json_output: bool = typer.Option(False, "--json", help="Output results as JSON"),
     repo: Path = typer.Option(Path.cwd(), "--repo", help="Path to Git repository"),
