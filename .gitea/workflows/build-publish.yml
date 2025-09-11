@@ -1,0 +1,56 @@
+---
+name: build-publish
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+env:
+  PYTHON_VERSION: 3.11
+  POETRY_VERSION: 2.1.4
+
+jobs:
+  run-pre-commits:
+    name: Run pre-commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python - --version ${{env.POETRY_VERSION}}
+
+      - name: Get secrets from vault
+        id: import-secrets
+        uses: hashicorp/vault-action@v3
+        with:
+          url: "https://vault.ednz.fr"
+          method: approle
+          roleId: ${{ secrets.VAULT_APPROLE_ID }}
+          secretId: ${{ secrets.VAULT_APPROLE_SECRET_ID }}
+          secrets: |
+            kv/data/cicd/gitea container_registry_uri | GITEA_REGISTRY_ADDRESS ;
+            kv/data/applications/gitea/users/actions username | GITEA_REGISTRY_USERNAME ;
+            kv/data/applications/gitea/users/actions token_write | GITEA_REGISTRY_TOKEN ;
+
+      - name: Set PyPi repository
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          poetry source add  ${{gitea.server_url}}/api/packages/${{gitea.repository}}/pypi
+
+      - name: Build and publish package
+        shell: bash
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          poetry publish --build --repository gitea
+        env:
+          POETRY_HTTP_BASIC_GITEA_USERNAME: ${{ steps.import-secrets.outputs.GITEA_REGISTRY_USERNAME }}
+          POETRY_HTTP_BASIC_GITEA_PASSWORD: ${{ steps.import-secrets.outputs.GITEA_REGISTRY_TOKEN }}
