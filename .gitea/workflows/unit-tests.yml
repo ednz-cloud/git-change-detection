@@ -37,7 +37,7 @@ jobs:
         uses: abatilo/actions-poetry@v4
 
       - name: Install dependencies
-        run: poetry install --no-interaction --no-ansi
+        run: /root/.local/bin/poetry install --no-interaction --no-ansi
 
       - name: Run unit tests
-        run: poetry run pytest --cov=gitcd --cov-report=term-missing --cov-fail-under=70
+        run: /root/.local/bin/poetry run pytest --cov=gitcd --cov-report=term-missing --cov-fail-under=70
