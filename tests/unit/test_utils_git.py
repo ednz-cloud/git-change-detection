@@ -19,12 +19,12 @@ def mock_repo(mocker):
     ],
 )
 def test_get_changed_files_exceptions(
-    first, last, setup_side_effect, expected_msg, repo_fixture
+    first, last, setup_side_effect, expected_msg, mock_repo
 ):
     if setup_side_effect is InvalidGitRepositoryError:
-        repo_fixture.side_effect = InvalidGitRepositoryError
+        mock_repo.side_effect = InvalidGitRepositoryError
     else:
-        repo = repo_fixture.return_value
+        repo = mock_repo.return_value
 
         def fake_commit(arg):
             if arg in ("missing", "missing"):
@@ -57,9 +57,9 @@ def test_get_changed_files_exceptions(
     ],
 )
 def test_get_changed_files_diff_variants(
-    diff_entries, expected_files, repo_fixture, mocker
+    diff_entries, expected_files, mock_repo, mocker
 ):
-    repo = repo_fixture.return_value
+    repo = mock_repo.return_value
 
     commit_a = mocker.Mock()
     commit_b = mocker.Mock()
