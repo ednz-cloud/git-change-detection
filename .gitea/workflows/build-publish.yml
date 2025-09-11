@@ -44,7 +44,7 @@ jobs:
       - name: Set PyPi repository
         run: |
           export PATH="$HOME/.local/bin:$PATH"
-          poetry config repositories.gitea  ${{gitea.server_url}}/api/packages/${{gitea.repository}}/pypi
+          poetry config repositories.gitea ${{gitea.server_url}}/api/packages/${{gitea.repository}}/pypi
 
       - name: Build and publish package
         shell: bash
