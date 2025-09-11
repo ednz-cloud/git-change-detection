@@ -31,3 +31,9 @@ repos:
     rev: v3.3.8
     hooks:
       - id: pylint
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.9.0
+    hooks:
+      - id: commitizen
+      - id: commitizen-branch
+        stages: [pre-push]
