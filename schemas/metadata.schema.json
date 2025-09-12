@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Git Change Detection Metadata",
+  "description": "Metadata for git-change-detection, defining nodes, triggers, dependencies, and optional blacklist.",
+  "type": "object",
+  "properties": {
+    "blacklist": {
+      "description": "Optional list of nodes to ignore",
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "patternProperties": {
+    "^(?!blacklist$).*": {
+      "type": "object",
+      "description": "Definition of a node",
+      "properties": {
+        "depends_on": {
+          "description": "List of nodes this node depends on",
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "triggers": {
+          "description": "Map of paths or glob patterns to files that trigger this node",
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "required": ["triggers"],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

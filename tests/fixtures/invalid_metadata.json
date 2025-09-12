@@ -1,0 +1,5 @@
+{
+  "playbooks/bootstrap.yml": {
+    "depends_on": []
+  }
+}
