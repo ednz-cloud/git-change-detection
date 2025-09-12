@@ -1,5 +1,5 @@
 import pytest
-from gitcd.models.node_metadata import NodeMetadata
+from git_change_detection.models.node_metadata import NodeMetadata
 
 
 @pytest.mark.parametrize(

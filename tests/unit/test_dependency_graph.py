@@ -1,6 +1,6 @@
 import pytest
-from gitcd.models.node_metadata import NodeMetadata
-from gitcd.models.dependency_graph import DependencyGraph
+from git_change_detection.models.node_metadata import NodeMetadata
+from git_change_detection.models.dependency_graph import DependencyGraph
 
 
 @pytest.fixture

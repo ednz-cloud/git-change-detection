@@ -3,7 +3,7 @@ import json
 import yaml
 import pytest
 from pathlib import Path
-from gitcd.utils.io import load_metadata_file
+from git_change_detection.utils.io import load_metadata_file
 
 
 @pytest.mark.parametrize(

@@ -46,4 +46,4 @@ jobs:
       - name: Run unit tests
         run: |
           export PATH="$HOME/.local/bin:$PATH"
-          poetry run pytest --cov=gitcd --cov-report=term-missing --cov-fail-under=70
+          poetry run pytest --cov=git_change_detection --cov-report=term-missing --cov-fail-under=70

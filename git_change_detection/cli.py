@@ -1,8 +1,8 @@
 import typer
 from pathlib import Path
-from gitcd.models.dependency_graph import DependencyGraph
-from gitcd.utils.git import get_changed_files
-from gitcd.utils.output import render_output
+from git_change_detection.models.dependency_graph import DependencyGraph
+from git_change_detection.utils.git import get_changed_files
+from git_change_detection.utils.output import render_output
 import fnmatch
 import os
 

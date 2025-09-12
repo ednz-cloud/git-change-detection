@@ -1,9 +1,9 @@
 from __future__ import annotations
-from gitcd.utils.io import load_metadata_file
+from git_change_detection.utils.io import load_metadata_file
 from pathlib import Path
 from typing import Dict, List, Set, Any
 
-from gitcd.models.node_metadata import (
+from git_change_detection.models.node_metadata import (
     NodeMetadata,
 )
 

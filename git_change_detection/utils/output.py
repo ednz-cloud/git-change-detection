@@ -1,7 +1,7 @@
 from __future__ import annotations
 import json
 from typing import Literal
-from gitcd.models.dependency_graph import DependencyGraph
+from git_change_detection.models.dependency_graph import DependencyGraph
 from rich.console import Console
 from rich.table import Table
 
@@ -65,4 +65,6 @@ def render_output(
 
     console.print("\n[bold]Deployment Stages[/bold]")
     for i, stage in enumerate(stages, 1):
-        console.print(f"  Stage {i}: {', '.join(stage)}")
+        console.print(
+            f"  Stage {i}: {', '.join(stage)}"  # pylint: disable=inconsistent-quotes
+        )

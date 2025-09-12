@@ -1,13 +1,13 @@
 import pytest
 from git import InvalidGitRepositoryError, BadName
 
-import gitcd.utils.git as git_utils
+import git_change_detection.utils.git as git_utils
 
 
 @pytest.fixture
 def mock_repo(mocker):
     """Fixture to mock a Repo object."""
-    return mocker.patch("gitcd.utils.git.Repo")
+    return mocker.patch("git_change_detection.utils.git.Repo")
 
 
 @pytest.mark.parametrize(
