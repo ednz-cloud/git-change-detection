@@ -155,7 +155,7 @@ Automatically detect changes and trigger dependent workflows:
 
 ```yaml
 - name: Detect changed nodes
-  run: gitcd <commit1> <commit2> --repo ~/projects/infrastructure --metadata .metadata.yml --json
+  run: git-change-detection <commit1> <commit2> --repo ~/projects/infrastructure --metadata .metadata.yml --json
 ```
 
 ---
