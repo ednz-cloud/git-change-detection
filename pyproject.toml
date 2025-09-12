@@ -1,6 +1,6 @@
 [project]
 name = "gitcd"
-version = "0.0.0"
+version = "0.1.0"
 description = "Dependency-aware change detection for Git repositories."
 authors = [
   { name = "Bertrand Lanson", email = "bertrand.lanson@protonmail.com" },
@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-version = "0.0.0"
+version = "0.1.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -35,7 +35,7 @@ pre-commit = "^4.3.0"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.0.0"
+version = "0.1.0"
 version_provider = "poetry"
 tag_format = "v$version"
 update_changelog_on_bump = true
