@@ -24,11 +24,7 @@ def render_output(
         fmt: Output format ("table" or "json").
     """
     if fmt == "json":
-        print(
-            json.dumps(
-                {n: node.model_dump() for n, node in graph.nodes.items()}, indent=2
-            )
-        )
+        print(json.dumps({n: node.model_dump() for n, node in graph.nodes.items()}))
         return
 
     console = Console()
