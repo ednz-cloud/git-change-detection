@@ -1,3 +1,9 @@
+## v0.1.1 (2025-10-23)
+
+### Fix
+
+- do not indent json output as it can break stuff
+
 ## v0.1.0 (2025-09-12)
 
 ### Feat
