@@ -28,9 +28,7 @@ def test_detect_happy_path(mocker, tmp_path):
     metadata = tmp_path / "meta.yaml"
     metadata.write_text("node1:\n  triggers:\n    src: ['*.py']")
 
-    mocker.patch(
-        "git_change_detection.cli.get_changed_files", return_value=["src/foo.py"]
-    )
+    mocker.patch("git_change_detection.cli.get_changed_files", return_value=["src/foo.py"])
     result = runner.invoke(cli.app, ["a", "b", "-m", str(metadata)])
 
     assert result.exit_code == 0
@@ -41,9 +39,7 @@ def test_detect_json_output(mocker, tmp_path):
     metadata = tmp_path / "meta.yaml"
     metadata.write_text("node1:\n  triggers:\n    src: ['*.py']")
 
-    mocker.patch(
-        "git_change_detection.cli.get_changed_files", return_value=["src/foo.py"]
-    )
+    mocker.patch("git_change_detection.cli.get_changed_files", return_value=["src/foo.py"])
     result = runner.invoke(cli.app, ["a", "b", "-m", str(metadata), "--json"])
 
     assert result.exit_code == 0
@@ -69,9 +65,7 @@ def test_detect_no_triggers(mocker, tmp_path):
     metadata = tmp_path / "meta.yaml"
     metadata.write_text("node1:\n  triggers:\n    src: ['*.py']")
 
-    mocker.patch(
-        "git_change_detection.cli.get_changed_files", return_value=["other/file.txt"]
-    )
+    mocker.patch("git_change_detection.cli.get_changed_files", return_value=["other/file.txt"])
     result = runner.invoke(cli.app, ["a", "b", "-m", str(metadata)])
 
     assert result.exit_code == 0

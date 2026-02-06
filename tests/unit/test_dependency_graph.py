@@ -92,9 +92,7 @@ def test_remove_node(request, graph_fixture, node_to_remove, expected_remaining_
         ),
     ],
 )
-def test_deep_merge_blacklist(
-    request, graph_fixture, merge_data, node_to_check, expected_triggers
-):
+def test_deep_merge_blacklist(request, graph_fixture, merge_data, node_to_check, expected_triggers):
     graph = request.getfixturevalue(graph_fixture)
     graph.deep_merge(merge_data)
     assert node_to_check not in graph.nodes or node_to_check != "b"
@@ -115,9 +113,7 @@ def test_mark_triggered(request, graph_fixture, node_name, file, pattern):
     assert node.triggered_by == [{"file": file, "pattern": pattern}]
 
 
-@pytest.mark.parametrize(
-    "graph_fixture", ["linear_graph", "diamond_graph", "tree_graph"]
-)
+@pytest.mark.parametrize("graph_fixture", ["linear_graph", "diamond_graph", "tree_graph"])
 def test_build_triggered_stages_single_trigger(request, graph_fixture):
     graph = request.getfixturevalue(graph_fixture)
     first_node = list(graph.nodes.keys())[0]
