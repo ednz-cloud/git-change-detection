@@ -5,16 +5,21 @@ description = "Dependency-aware change detection for Git repositories."
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
 dependencies = [
-  "gitpython (>=3.1.45,<4.0.0)",
-  "typer (>=0.17.4,<0.18.0)",
-  "rich (>=14.1.0,<15.0.0)",
-  "pydantic (>=2.11.7,<3.0.0)",
-  "pyyaml (>=6.0.2,<7.0.0)",
-  "pytest-mock (>=3.15.0,<4.0.0)",
+  "gitpython>=3.1.45,<4.0.0",
+  "typer>=0.17.4,<0.18.0",
+  "rich>=14.1.0,<15.0.0",
+  "pydantic>=2.11.7,<3.0.0",
+  "pyyaml>=6.0.2,<7.0.0",
 ]
 
 [dependency-groups]
-test = ["pytest>=9.0.2", "pytest-cov>=7.0.0", "ruff>=0.14.10"]
+test = [
+    "jsonschema>=4.26.0",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "pytest-mock>=3.15.0,<4.0.0",
+    "ruff>=0.14.10",
+]
 
 [project.scripts]
 git-change-detection = "git_change_detection.cli:app"
