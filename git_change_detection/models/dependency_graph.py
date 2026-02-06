@@ -84,33 +84,30 @@ class DependencyGraph:
             dfs(n)
         return cycles
 
-    def build_triggered_stages(self):
-        """Build deployment stages, only including triggered playbooks."""
-        deps = {node: set(meta.depends_on) for node, meta in self.nodes.items()}
+    def build_triggered_stages(self) -> list[list[str]]:
+        pending_deps = {node: set(meta.depends_on) for node, meta in self.nodes.items()}
+        completed = set()
+        triggered_nodes = {node for node, meta in self.nodes.items() if meta.triggered}
         stages: list[list[str]] = []
-        assigned = set()
-        stage_num = 1
 
-        triggered_set = {node for node, meta in self.nodes.items() if meta.triggered}
+        while pending_deps:
+            # Nodes whose dependencies have all been completed
+            ready = [node for node, deps in pending_deps.items() if deps <= completed]
 
-        while deps:
-            # Ready = deps satisfied (whether triggered or not)
-            ready = [node for node, dep_set in deps.items() if dep_set <= assigned]
             if not ready:
                 raise RuntimeError("Dependency resolution failed (possible cycle).")
 
-            triggered_ready = [node for node in ready if node in triggered_set]
+            # Only triggered nodes go into output stages
+            triggered_ready = [node for node in ready if node in triggered_nodes]
             if triggered_ready:
+                stage_num = len(stages) + 1
                 for node in triggered_ready:
                     self.nodes[node].stage = stage_num
                 stages.append(sorted(triggered_ready))
 
-            # Mark all ready playbooks (even non-triggered) as assigned to unlock dependencies
-            assigned.update(ready)
-
+            # Mark all ready nodes as completed to unlock their dependents
+            completed.update(ready)
             for node in ready:
-                deps.pop(node)
-
-            stage_num += 1
+                del pending_deps[node]
 
         return stages
