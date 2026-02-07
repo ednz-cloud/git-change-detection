@@ -2,6 +2,23 @@
 name = "git-change-detection"
 version = "0.2.0"
 description = "Dependency-aware change detection for Git repositories."
+authors = [
+  {name = "Bertrand Lanson", email = "bertrand.lanson@protonmail.com"},
+]
+maintainers = [
+  {name = "Bertrand Lanson", email = "bertrand.lanson@protonmail.com"}
+]
+keywords = [
+  "git",
+  "change-detection",
+  "dependency-graph",
+  "ci-cd",
+  "automation",
+  "devops",
+  "monorepo",
+  "ansible",
+  "pipeline",
+]
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
 dependencies = [
