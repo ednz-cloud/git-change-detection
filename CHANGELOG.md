@@ -1,3 +1,9 @@
+## v0.2.0 (2026-02-07)
+
+### Feat
+
+- **cli**: add validate command for checking metadata dependencies and schema validation
+
 ## v0.1.1 (2025-10-23)
 
 ### Fix
