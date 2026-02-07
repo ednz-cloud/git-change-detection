@@ -1,8 +1,16 @@
 import json
 import tomllib
-import yaml
+from importlib import resources
 from pathlib import Path
 from typing import Any, Dict
+
+import yaml
+
+
+def load_schema() -> Dict[str, Any]:
+    """Load the JSON schema for metadata validation."""
+    schema_file = resources.files("git_change_detection.schemas").joinpath("metadata.schema.json")
+    return json.loads(schema_file.read_text(encoding="utf-8"))
 
 
 def load_metadata_file(path: Path) -> Dict[str, Any]:

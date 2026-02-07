@@ -1,10 +1,14 @@
-import typer
-from pathlib import Path
-from git_change_detection.models.dependency_graph import DependencyGraph
-from git_change_detection.utils.git import get_changed_files
-from git_change_detection.utils.output import render_output
 import fnmatch
 import os
+from pathlib import Path
+
+import typer
+from jsonschema import validate, ValidationError
+
+from git_change_detection.models.dependency_graph import DependencyGraph
+from git_change_detection.utils.git import get_changed_files
+from git_change_detection.utils.io import load_metadata_file, load_schema
+from git_change_detection.utils.output import render_output
 
 app = typer.Typer(help="GitCD: dependency-aware change detection for Git.")
 
@@ -48,3 +52,58 @@ def detect(
 
     fmt = "json" if json_output else "table"
     render_output(graph, changed_files, cycles, stages, fmt)
+
+
+@app.command(name="validate")
+def validate_cmd(
+    metadata_files: list[Path] = typer.Option(
+        ...,
+        "--metadata",
+        "-m",
+        help="Metadata files to validate",
+        exists=True,
+    ),
+):
+    """
+    Validate metadata files for schema compliance, missing dependencies, and cycles.
+    """
+    schema = load_schema()
+    has_errors = False
+
+    for path in metadata_files:
+        try:
+            data = load_metadata_file(path)
+            validate(instance=data, schema=schema)
+            typer.echo(f"✓ {path}: schema valid")
+        except ValidationError as e:
+            typer.echo(f"✗ {path}: schema error - {e.message}")
+            has_errors = True
+        except Exception as e:
+            typer.echo(f"✗ {path}: failed to load - {e}")
+            has_errors = True
+
+    graph = DependencyGraph()
+    try:
+        graph.load_files(metadata_files)
+    except Exception as e:
+        typer.echo(f"✗ Failed to build graph: {e}")
+        raise typer.Exit(code=1)
+
+    missing = graph.find_missing_dependencies()
+    if missing:
+        has_errors = True
+        typer.echo("\n✗ Missing dependencies:")
+        for node, deps in missing.items():
+            typer.echo(f"  {node} depends on non-existent: {', '.join(deps)}")
+
+    cycles = graph.detect_cycles()
+    if cycles:
+        has_errors = True
+        typer.echo("\n✗ Dependency cycles detected:")
+        for cycle in cycles:
+            typer.echo(f"  {' → '.join(cycle)}")
+
+    if has_errors:
+        raise typer.Exit(code=1)
+
+    typer.echo("\n✓ All validations passed")

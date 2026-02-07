@@ -1,11 +1,12 @@
 import json
-import yaml
 import pytest
+import yaml
 from jsonschema import validate, ValidationError
 from pathlib import Path
 
-with open("schemas/metadata.schema.json", encoding="UTF-8") as f:
-    SCHEMA = json.load(f)
+from git_change_detection.utils.io import load_schema
+
+SCHEMA = load_schema()
 
 
 @pytest.mark.parametrize(

@@ -48,6 +48,15 @@ class DependencyGraph:
         if node_name in self.nodes:
             self.nodes[node_name].mark_triggered(file, pattern)
 
+    def find_missing_dependencies(self) -> dict[str, list[str]]:
+        """Find dependencies that reference non-existent nodes."""
+        missing = {}
+        for node_name, node in self.nodes.items():
+            node_missing = [dep for dep in node.depends_on if dep not in self.nodes]
+            if node_missing:
+                missing[node_name] = node_missing
+        return missing
+
     def sanitize_dependencies(self):
         """Remove dependencies that are not present in the graph."""
         for node in self.nodes.values():
