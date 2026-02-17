@@ -1,6 +1,6 @@
 [project]
 name = "git-change-detection"
-version = "0.2.1"
+version = "0.2.2"
 description = "Dependency-aware change detection for Git repositories."
 authors = [
   {name = "Bertrand Lanson", email = "bertrand.lanson@protonmail.com"},
