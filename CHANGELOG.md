@@ -1,3 +1,9 @@
+## v0.2.3 (2026-04-12)
+
+### Fix
+
+- **deps**: update dependency rich to v15
+
 ## v0.2.2 (2026-02-17)
 
 ### Fix
