@@ -1,5 +1,6 @@
 from pathlib import Path
-from git import Repo, InvalidGitRepositoryError, BadName, NoSuchPathError
+
+from git import BadName, InvalidGitRepositoryError, NoSuchPathError, Repo
 
 
 def get_changed_files(

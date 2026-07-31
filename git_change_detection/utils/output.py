@@ -1,9 +1,12 @@
 from __future__ import annotations
+
 import json
 from typing import Literal
-from git_change_detection.models.dependency_graph import DependencyGraph
+
 from rich.console import Console
 from rich.table import Table
+
+from git_change_detection.models.dependency_graph import DependencyGraph
 
 
 def render_output(

@@ -1,6 +1,7 @@
 import pytest
-from git_change_detection.models.node_metadata import NodeMetadata
+
 from git_change_detection.models.dependency_graph import DependencyGraph
+from git_change_detection.models.node_metadata import NodeMetadata
 
 
 @pytest.fixture
@@ -116,7 +117,7 @@ def test_mark_triggered(request, graph_fixture, node_name, file, pattern):
 @pytest.mark.parametrize("graph_fixture", ["linear_graph", "diamond_graph", "tree_graph"])
 def test_build_triggered_stages_single_trigger(request, graph_fixture):
     graph = request.getfixturevalue(graph_fixture)
-    first_node = list(graph.nodes.keys())[0]
+    first_node = next(iter(graph.nodes.keys()))
     graph.mark_triggered(first_node, "file1.py", "*.py")
     stages = graph.build_triggered_stages()
     assert stages[0] == [first_node]

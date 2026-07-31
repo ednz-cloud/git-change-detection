@@ -1,8 +1,10 @@
-import tempfile
 import json
-import yaml
-import pytest
+import tempfile
 from pathlib import Path
+
+import pytest
+import yaml
+
 from git_change_detection.utils.io import load_metadata_file
 
 

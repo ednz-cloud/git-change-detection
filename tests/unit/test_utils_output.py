@@ -1,5 +1,7 @@
 import json
+
 import pytest
+
 from git_change_detection.models.dependency_graph import DependencyGraph
 from git_change_detection.models.node_metadata import NodeMetadata
 from git_change_detection.utils.output import render_output  # adjust import if needed

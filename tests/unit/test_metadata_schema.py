@@ -1,8 +1,9 @@
 import json
+from pathlib import Path
+
 import pytest
 import yaml
-from jsonschema import validate, ValidationError
-from pathlib import Path
+from jsonschema import ValidationError, validate
 
 from git_change_detection.utils.io import load_schema
 

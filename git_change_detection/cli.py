@@ -1,9 +1,11 @@
 import fnmatch
 import os
 from pathlib import Path
+from typing import Annotated
 
 import typer
-from jsonschema import validate, ValidationError
+import yaml
+from jsonschema import ValidationError, validate
 
 from git_change_detection.models.dependency_graph import DependencyGraph
 from git_change_detection.utils.git import get_changed_files
@@ -15,21 +17,19 @@ app = typer.Typer(help="GitCD: dependency-aware change detection for Git.")
 
 @app.command()
 def detect(
-    first_commit: str = typer.Argument(..., help="First commit in diff"),
-    last_commit: str = typer.Argument(..., help="Last commit in diff"),
-    metadata_files: list[Path] = typer.Option(
-        ...,
-        "--metadata",
-        "-m",
-        help="Metadata files to load",
-        exists=True,
-    ),
-    json_output: bool = typer.Option(False, "--json", help="Output results as JSON"),
-    repo: Path = typer.Option(Path.cwd(), "--repo", help="Path to Git repository"),
+    first_commit: Annotated[str, typer.Argument(help="First commit in diff")],
+    last_commit: Annotated[str, typer.Argument(help="Last commit in diff")],
+    metadata_files: Annotated[
+        list[Path],
+        typer.Option(..., "--metadata", "-m", help="Metadata files to load", exists=True),
+    ],
+    json_output: Annotated[bool, typer.Option("--json", help="Output results as JSON")] = False,
+    repo: Annotated[Path | None, typer.Option("--repo", help="Path to Git repository")] = None,
 ):
     """
     Detect changed files and resolve triggered nodes in the dependency graph.
     """
+    repo = repo or Path.cwd()
     graph = DependencyGraph()
     graph.load_files(metadata_files)
     graph.sanitize_dependencies()
@@ -56,13 +56,10 @@ def detect(
 
 @app.command(name="validate")
 def validate_cmd(
-    metadata_files: list[Path] = typer.Option(
-        ...,
-        "--metadata",
-        "-m",
-        help="Metadata files to validate",
-        exists=True,
-    ),
+    metadata_files: Annotated[
+        list[Path],
+        typer.Option(..., "--metadata", "-m", help="Metadata files to validate", exists=True),
+    ],
 ):
     """
     Validate metadata files for schema compliance, missing dependencies, and cycles.
@@ -78,14 +75,14 @@ def validate_cmd(
         except ValidationError as e:
             typer.echo(f"✗ {path}: schema error - {e.message}")
             has_errors = True
-        except Exception as e:
+        except (OSError, ValueError, yaml.YAMLError) as e:
             typer.echo(f"✗ {path}: failed to load - {e}")
             has_errors = True
 
     graph = DependencyGraph()
     try:
         graph.load_files(metadata_files)
-    except Exception as e:
+    except (OSError, ValueError, yaml.YAMLError) as e:
         typer.echo(f"✗ Failed to build graph: {e}")
         raise typer.Exit(code=1)
 

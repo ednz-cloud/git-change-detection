@@ -1,9 +1,10 @@
 import json
+
 import pytest
 from typer.testing import CliRunner
+
 from git_change_detection import cli
 from git_change_detection.models.node_metadata import NodeMetadata
-
 
 runner = CliRunner()
 

@@ -1,19 +1,20 @@
 from __future__ import annotations
-from git_change_detection.utils.io import load_metadata_file
+
 from pathlib import Path
-from typing import Dict, List, Set, Any
+from typing import Any
 
 from git_change_detection.models.node_metadata import (
     NodeMetadata,
 )
+from git_change_detection.utils.io import load_metadata_file
 
 
 class DependencyGraph:
     """Represents the full dependency graph of nodes."""
 
     def __init__(self) -> None:
-        self.nodes: Dict[str, NodeMetadata] = {}
-        self.blacklist: Set[str] = set()
+        self.nodes: dict[str, NodeMetadata] = {}
+        self.blacklist: set[str] = set()
 
     def remove_node(self, name: str) -> None:
         """Remove a node and clean up references."""
@@ -23,7 +24,7 @@ class DependencyGraph:
             if name in node.depends_on:
                 node.depends_on.remove(name)
 
-    def deep_merge(self, new_data: Dict[str, Any]) -> None:
+    def deep_merge(self, new_data: dict[str, Any]) -> None:
         """Merge new metadata (parsed from YAML/JSON) into the graph."""
         blacklisted = new_data.get("blacklist", [])
         self.blacklist.update(blacklisted)
@@ -37,7 +38,7 @@ class DependencyGraph:
         for name in list(self.blacklist):
             self.remove_node(name)
 
-    def load_files(self, paths: List[Path]) -> None:
+    def load_files(self, paths: list[Path]) -> None:
         """Load multiple metadata files into the graph."""
         for path in paths:
             data = load_metadata_file(path)

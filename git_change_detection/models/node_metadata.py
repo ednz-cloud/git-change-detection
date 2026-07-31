@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import List, Dict, Any
+
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -7,13 +9,13 @@ class NodeMetadata(BaseModel):
     """Represents a single dependency-tracked node (playbook, task, workflow...)."""
 
     name: str
-    depends_on: List[str] = Field(default_factory=list)
-    triggers: Dict[str, List[str]] = Field(default_factory=dict)
+    depends_on: list[str] = Field(default_factory=list)
+    triggers: dict[str, list[str]] = Field(default_factory=dict)
     triggered: bool = False
-    triggered_by: List[Dict[str, str]] = Field(default_factory=list)
+    triggered_by: list[dict[str, str]] = Field(default_factory=list)
     stage: int | None = None
 
-    def merge(self, details: Dict[str, Any]) -> None:
+    def merge(self, details: dict[str, Any]) -> None:
         """Merge a dict of details into this node metadata."""
         new_depends = details.get("depends_on") or []
         self.depends_on = sorted(set(self.depends_on) | set(new_depends))

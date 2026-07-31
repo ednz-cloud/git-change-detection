@@ -1,4 +1,5 @@
 import pytest
+
 from git_change_detection.models.node_metadata import NodeMetadata
 
 

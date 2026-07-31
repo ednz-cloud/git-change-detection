@@ -1,5 +1,5 @@
 import pytest
-from git import InvalidGitRepositoryError, BadName
+from git import BadName, InvalidGitRepositoryError
 
 import git_change_detection.utils.git as git_utils
 
