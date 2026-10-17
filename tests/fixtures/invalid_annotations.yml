@@ -1,0 +1,8 @@
+---
+playbooks/bootstrap.yml:
+  triggers:
+    ansible/playbooks:
+      - bootstrap.yml
+  annotations: # should be a mapping, not a list
+    - owner
+    - platform

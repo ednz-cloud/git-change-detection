@@ -29,6 +29,7 @@ def test_valid_metadata(file):
     [
         "tests/fixtures/invalid_metadata.yml",
         "tests/fixtures/invalid_metadata.json",
+        "tests/fixtures/invalid_annotations.yml",
     ],
 )
 def test_invalid_metadata(file):

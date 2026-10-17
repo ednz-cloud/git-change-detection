@@ -68,10 +68,18 @@ playbooks/k3s_cluster.yml:
   triggers:
     ansible/playbooks:
       - k3s_cluster.yml
+  annotations:
+    owner: platform
+    timeout: 600
+    inventory:
+      groups:
+        - k3s_servers
+        - k3s_agents
 ```
 
 * **triggers**: Maps paths or glob patterns to nodes.
 * **depends_on**: Lists other nodes that must run before this one.
+* **annotations**: Optional mapping of arbitrary operator-defined data. It is never used for change detection or dependency resolution, and is passed through as-is in the JSON output for downstream tooling. Keys must be strings; values can be anything (scalars, lists, nested mappings).
 * **blacklist**: Optional list of nodes to ignore.
 
 Example blacklist:
@@ -83,6 +91,7 @@ blacklist:
 
 You can specify multiple metadata sources.
 All sources will be deep merged together prior to calculating the dependency graph.
+For `annotations`, nested mappings are merged recursively, and any other value (scalars, lists) defined in a later source replaces the earlier one.
 
 ---
 
@@ -125,6 +134,7 @@ Deployment Stages
         "netbird_routers.yml"
       ]
     },
+    "annotations": {},
     "triggered_by": [
       {
         "file": "vars/install_docker.yml",

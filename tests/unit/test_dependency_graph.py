@@ -165,3 +165,10 @@ def test_build_triggered_stages(request, graph_fixture, trigger_node, expected_s
     stages = graph.build_triggered_stages()
     assert stages == expected_stages
     assert graph.nodes[trigger_node].stage == 1
+
+
+def test_deep_merge_annotations_across_sources():
+    graph = DependencyGraph()
+    graph.deep_merge({"a": {"triggers": {}, "annotations": {"owner": "x", "opts": {"t": 1}}}})
+    graph.deep_merge({"a": {"triggers": {}, "annotations": {"opts": {"r": 2}}}})
+    assert graph.nodes["a"].annotations == {"owner": "x", "opts": {"t": 1, "r": 2}}

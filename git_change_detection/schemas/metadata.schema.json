@@ -28,6 +28,10 @@
             "type": "array",
             "items": { "type": "string" }
           }
+        },
+        "annotations": {
+          "description": "Arbitrary operator-defined data attached to the node; not used for dependency resolution",
+          "type": "object"
         }
       },
       "required": ["triggers"],

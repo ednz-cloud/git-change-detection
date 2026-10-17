@@ -1,3 +1,4 @@
+import datetime
 import json
 
 import pytest
@@ -69,3 +70,23 @@ def test_render_output_with_cycles(capsys):
     out = capsys.readouterr().out
     assert "Dependency cycles detected" in out
     assert "node1 → node2 → node1" in out
+
+
+def test_render_output_json_includes_annotations(capsys):
+    """Annotations are emitted in JSON, including non-JSON-native YAML values like dates."""
+    graph = make_graph(triggered=True)
+    graph.nodes["node1"].annotations = {
+        "owner": "platform",
+        "since": datetime.date(2026, 10, 17),
+        "opts": {"tags": ["a", "b"]},
+    }
+
+    render_output(graph, ["file1.py"], [], [["node1"]], fmt="json")
+    data = json.loads(capsys.readouterr().out)
+
+    assert data["node1"]["annotations"] == {
+        "owner": "platform",
+        "since": "2026-10-17",
+        "opts": {"tags": ["a", "b"]},
+    }
+    assert data["node2"]["annotations"] == {}

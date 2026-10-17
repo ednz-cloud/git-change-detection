@@ -82,7 +82,7 @@ def validate_cmd(
     graph = DependencyGraph()
     try:
         graph.load_files(metadata_files)
-    except (OSError, ValueError, yaml.YAMLError) as e:
+    except (OSError, TypeError, ValueError, yaml.YAMLError) as e:
         typer.echo(f"✗ Failed to build graph: {e}")
         raise typer.Exit(code=1)
 
