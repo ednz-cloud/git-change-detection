@@ -1,3 +1,9 @@
+## v0.3.0 (2026-10-17)
+
+### Feat
+
+- add optional annotations field to nodes
+
 ## v0.2.6 (2026-07-17)
 
 ### Fix
