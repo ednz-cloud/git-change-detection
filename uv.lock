@@ -98,7 +98,7 @@ wheels = [
 
 [[package]]
 name = "git-change-detection"
-version = "0.3.0"
+version = "0.3.1"
 source = { editable = "." }
 dependencies = [
     { name = "gitpython" },
